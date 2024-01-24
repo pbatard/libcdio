@@ -105,6 +105,13 @@ _cdio_memdup (const void *mem, size_t count);
 char *
 _cdio_strdup_upper (const char str[]);
 
+/*! Case insensitive strcmp and strncmp. Used for El-Torito parsing. */
+int
+_cdio_stricmp(const char str1[], const char str2[]);
+
+int
+_cdio_strnicmp(const char str1[], const char str2[], size_t count);
+
 /*! Duplicate path and make it platform compliant. Typically needed for
     MinGW/MSYS where a "/c/..." path must be translated to "c:/..." for
     use with fopen(), etc. Returned string must be freed by the caller
