@@ -87,6 +87,7 @@ static struct arguments
   int            no_joliet;
   int            no_xa;
   int            no_rock_ridge;
+  int            no_el_torito;
   int            print_iso9660;
   int            print_udf;
   int            print_iso9660_short;
@@ -118,7 +119,8 @@ parse_options (int argc, char *argv[])
     "  -f                        Generate output similar to 'find . -print'\n"
     "  -l, --iso9660             output similar to 'ls -lR' for an ISO 9660 fs\n"
     "  -U, --udf                 output similar to 'ls -lR' for a UDF fs\n"
-    "  --no-header               Don't display header and copyright (for regression\n"
+    "  --no-header               Don't display header and copyright (for regression)\n"
+    "  --no-el-torito            Don't use El-Torito extension information\n"
 #ifdef HAVE_JOLIET
     "  --no-joliet               Don't use Joliet-extension information\n"
 #endif /*HAVE_JOLIET*/
@@ -136,8 +138,8 @@ parse_options (int argc, char *argv[])
 
   static const char usageText[] =
     "Usage: %s [-i|--input FILE] [-f] [-l|--iso9660] [-U|--udf]\n"
-    "        [--no-header] [--no-joliet] [--no-rock-ridge] [--show-rock-ridge] [--no-xa] [-q|--quiet]\n"
-    "        [-d|--debug INT] [-V|--version] [-?|--help] [--usage]\n";
+    "        [--no-header] [--no-el-torito] [--no-joliet] [--no-rock-ridge] [--show-rock-ridge] [--no-xa]\n"
+    "        [-q|--quiet] [-d|--debug INT] [-V|--version] [-?|--help] [--usage]\n";
 
   static const char optionsString[] = "d:i::flUqV?";
   static const struct option optionsTable[] = {
@@ -146,6 +148,7 @@ parse_options (int argc, char *argv[])
     {"iso9660", no_argument,       NULL, 'l'},
     {"udf",     no_argument,       NULL, 'U'},
     {"no-header", no_argument, &opts.no_header, 1 },
+    {"no-el-torito", no_argument, &opts.no_el_torito, 1 },
 #ifdef HAVE_JOLIET
     {"no-joliet", no_argument, &opts.no_joliet, 1 },
 #endif /*HAVE_JOLIET*/
@@ -429,6 +432,7 @@ init(void)
   /* Default option values. */
   opts.silent              = false;
   opts.no_header           = false;
+  opts.no_el_torito        = 0;
   opts.no_joliet           = 0;
   opts.no_rock_ridge       = 0;
   opts.no_xa               = 0;
@@ -474,6 +478,10 @@ main(int argc, char *argv[])
 
   if (opts.no_joliet) {
     iso_extension_mask &= ~ISO_EXTENSION_JOLIET;
+  }
+
+  if (opts.no_el_torito) {
+    iso_extension_mask &= ~ISO_EXTENSION_EL_TORITO;
   }
 
   p_iso = iso9660_open_ext (source_name, iso_extension_mask);
