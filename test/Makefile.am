@@ -50,9 +50,9 @@ test_lib_driver_util_LDADD    = $(LIBCDIO_LIBS) $(LTLIBICONV)
 testpregap_LDADD    = $(LIBCDIO_LIBS) $(LTLIBICONV)
 
 check_SCRIPTS = check_nrg.sh  check_cue.sh  check_cd_read.sh check_udf.sh \
-                check_iso.sh  check_bad_iso.sh check_multiextent.sh \
-                check_fuzzyiso.sh check_opts.sh check_deep_directory.sh \
-                check_iso_read.sh check_cdtext.sh
+                check_iso.sh  check_bad_iso.sh check_eltorito.sh \
+                check_multiextent.sh check_fuzzyiso.sh check_opts.sh \
+                check_deep_directory.sh check_iso_read.sh check_cdtext.sh
 
 check_udf.sh: @abs_top_builddir@/example/extract$(EXEEXT)
 
@@ -62,12 +62,12 @@ check_udf.sh: @abs_top_builddir@/example/extract$(EXEEXT)
 check_PROGRAMS = $(hack)
 
 check_DATA = vcd_demo.right vcd_demo_vcdinfo.right \
-	     videocd.right multiextent.right \
+	     videocd.right eltorito.right no_eltorito.right \
 	     cdda.right cdda_4_5.right deep_directory.right \
 	     isofs-m1.right isofs-m1-no-rr.right isofs-m1-test2.right \
 	     check_opts0.right check_opts1.right check_opts2.right \
 	     check_opts3.right check_opts4.right check_opts5.right \
-	     check_opts6.right check_opts7.right \
+	     check_opts6.right check_opts7.right multiextent.right \
 	     isofs-m1-read.right cdda-read.right \
 	     copying.right copying-rr.right \
 	     joliet.right joliet-nojoliet.right \
