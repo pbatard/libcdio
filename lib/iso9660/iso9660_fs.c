@@ -244,7 +244,7 @@ iso9660_open_ext (const char *psz_path,
   contained in a file format that libiso9660 doesn't know natively
   (or knows imperfectly.)
 
-  Some tolerence allowed for positioning the ISO 9660 image. We scan
+  Some tolerance allowed for positioning the ISO 9660 image. We scan
   for STANDARD_ID and use that to set the eventual offset to adjust
   by (as long as that is <= i_fuzz).
 
@@ -259,7 +259,7 @@ iso9660_open_fuzzy (const char *psz_path, uint16_t i_fuzz /*, mode*/)
 }
 
 /*!
-  Open an ISO 9660 image for reading with some tolerence for positioning
+  Open an ISO 9660 image for reading with some tolerance for positioning
   of the ISO9660 image. We scan for ISO_STANDARD_ID and use that to set
   the eventual offset to adjust by (as long as that is <= i_fuzz).
 
@@ -332,7 +332,7 @@ get_member_id(iso9660_t *p_iso, cdio_utf8_t **p_psz_member_id,
   }
 #ifdef HAVE_JOLIET
   if (p_iso->u_joliet_level) {
-    /* Translate USC-2 string from Secondary Volume Descriptor */
+    /* Translate UCS-2 string from Secondary Volume Descriptor */
     if (cdio_charset_to_utf8(svd_member, max_size,
                             p_psz_member_id, "UCS-2BE")) {
       /* NB: *p_psz_member_id is never NULL on success. */
@@ -428,7 +428,7 @@ bool iso9660_ifs_get_publisher_id(iso9660_t *p_iso,
 }
 
 /*!
-   Return a string containing the PVD's publisher id with trailing
+   Return a string containing the PVD's system id with trailing
    blanks removed.
 */
 bool iso9660_ifs_get_system_id(iso9660_t *p_iso,
@@ -441,7 +441,7 @@ bool iso9660_ifs_get_system_id(iso9660_t *p_iso,
 }
 
 /*!
-   Return a string containing the PVD's publisher id with trailing
+   Return a string containing the PVD's volume id with trailing
    blanks removed.
 */
 bool iso9660_ifs_get_volume_id(iso9660_t *p_iso,
@@ -454,7 +454,7 @@ bool iso9660_ifs_get_volume_id(iso9660_t *p_iso,
 }
 
 /*!
-   Return a string containing the PVD's publisher id with trailing
+   Return a string containing the PVD's volumeset id with trailing
    blanks removed.
 */
 bool iso9660_ifs_get_volumeset_id(iso9660_t *p_iso,
@@ -511,7 +511,7 @@ iso9660_ifs_read_superblock (iso9660_t *p_iso,
 
   p_iso->u_joliet_level = 0;
 
-  /* There may be multiple Secondary Volume Descriptors (eg. El Torito + Joliet) */
+  /* There may be multiple Secondary Volume Descriptors (e.g. El Torito + Joliet) */
   for (i=1; (0 != iso9660_iso_seek_read (p_iso, &p_svd, ISO_PVD_SECTOR+i, 1)); i++) {
     if (ISO_VD_END == from_711(p_svd.type) ) /* Last SVD */
       break;
@@ -933,7 +933,7 @@ _iso9660_dir_to_statbuf (iso9660_dir_t *p_iso9660_dir,
 
     if (i_rr_fname > 0) {
       if (i_rr_fname > i_fname) {
-	/* realloc gives valgrind errors */
+	/* realloc gives Valgrind errors */
 	iso9660_stat_t *p_stat_new =
 	  calloc(1, sizeof(iso9660_stat_t)+i_rr_fname+2);
 	if (!p_stat_new) {
@@ -1066,7 +1066,7 @@ _fs_stat_root (CdIo_t *p_cdio)
     if (!p_env->u_joliet_level)
       iso_extension_mask &= ~ISO_EXTENSION_JOLIET;
 
-    /* FIXME try also with Joliet.*/
+    /* FIXME: try also with Joliet.*/
     if ( !iso9660_fs_read_superblock (p_cdio, iso_extension_mask) ) {
       cdio_warn("Could not read ISO-9660 Superblock.");
       return NULL;
@@ -1381,7 +1381,7 @@ typedef iso9660_stat_t * (stat_traverse_t)
   Get file status for psz_path into stat. NULL is returned on error.
   pathname version numbers in the ISO 9660
   name are dropped, i.e. ;1 is removed and if level 1 ISO-9660 names
-  are lowercased.
+  are downcased.
  */
 static iso9660_stat_t *
 fs_stat_translate (void *p_image, stat_root_t stat_root,
@@ -1409,7 +1409,7 @@ fs_stat_translate (void *p_image, stat_root_t stat_root,
 /*!
   Return file status for path name psz_path. NULL is returned on error.
   pathname version numbers in the ISO 9660 name are dropped, i.e. ;1
-  is removed and if level 1 ISO-9660 names are lowercased.
+  is removed and if level 1 ISO-9660 names are downcased.
 
   @param p_cdio the CD object to read from
 
@@ -1434,7 +1434,7 @@ iso9660_fs_stat_translate (CdIo_t *p_cdio, const char psz_path[])
 
   @return file status for path name psz_path. NULL is returned on
   error.  pathname version numbers in the ISO 9660 name are dropped,
-  i.e. ;1 is removed and if level 1 ISO-9660 names are lowercased.
+  i.e. ;1 is removed and if level 1 ISO-9660 names are downcased.
   The caller must free the returned result using iso9660_stat_free().
  */
 iso9660_stat_t *
@@ -1967,7 +1967,7 @@ iso9660_dirlist_free(CdioISO9660DirList_t *p_filelist) {
 
 
 /*!
-  Return true if ISO 9660 image has extended attrributes (XA).
+  Return true if ISO 9660 image has extended attributes (XA).
 */
 bool
 iso9660_ifs_is_xa (const iso9660_t * p_iso)
@@ -2054,7 +2054,7 @@ iso_have_rr_traverse (iso9660_t *p_iso, const iso9660_stat_t *_root,
 
   @param p_iso the ISO-9660 file image to get data from
 
-  @param u_file_limit the maximimum number of (non-rock-ridge) files
+  @param u_file_limit the maximum number of (non-rock-ridge) files
   to consider before giving up and returning "dunno".
 
   "dunno" can also be returned if there was some error encountered
