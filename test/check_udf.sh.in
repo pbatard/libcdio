@@ -14,7 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests to see that CD reading is correct (via cd-read). 
+# Tests to see that CD reading is correct (via cd-read).
 
 if test "X$abs_top_srcdir" = "X" ; then
   abs_top_srcdir=@abs_top_srcdir@
@@ -45,6 +45,14 @@ check_result $RC "$cmd"
 if test $RC -eq 0 ; then
     rm -fr $extract_dir
 fi
+
+fname=cdimage-u2
+udf_iso=$abs_top_srcdir/test/data/${fname}.iso
+udf_iso_right=$abs_top_srcdir/test/data/${fname}.right
+opts="--quiet -U -i ${udf_iso}"
+test_iso_info "$opts" ${fname}.dump ${udf_iso_right}
+RC=$?
+check_result $RC 'iso-info UDF read test' "$ISO_INFO $opts"
 
 exit $RC
 

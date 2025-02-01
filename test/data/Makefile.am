@@ -19,10 +19,19 @@ check_DATA = \
 	cdda.cue       \
 	cdda_4_5.bin   \
 	cdda_4_5.cue   \
+	cdimage-u2.iso \
+	cdimage-u2.right \
+	cdtext-krosis.cdt \
+	cdtext-libburnia.cdt \
+	cdtext.cdt     \
+	cdtext.toc     \
 	copying-rr.iso \
 	copying.iso    \
 	data1.toc      \
 	data2.toc      \
+	data5.toc      \
+	data6.toc      \
+	data7.toc      \
 	deep-directory.iso \
 	deep_directory1_file \
 	deep_directory2_file \
@@ -38,6 +47,7 @@ check_DATA = \
 	p1.cue         \
 	p1.nrg         \
 	t1.toc         \
+	t10.toc        \
 	t2.toc         \
 	t3.toc         \
 	t4.toc         \
@@ -46,17 +56,9 @@ check_DATA = \
 	t7.toc         \
 	t8.toc         \
 	t9.toc         \
-	t10.toc        \
-	vcd2.toc       \
-	videocd.nrg    \
-	cdtext.toc     \
-	data5.toc      \
-	data6.toc      \
-	data7.toc      \
 	test-udf1.iso  \
 	udf102.iso     \
-	cdtext.cdt     \
-        cdtext-krosis.cdt \
-	cdtext-libburnia.cdt
+	vcd2.toc       \
+	videocd.nrg
 
 EXTRA_DIST = $(check_DATA)
