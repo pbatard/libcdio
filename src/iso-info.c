@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004-2006, 2008, 2012-2014, 2017 Rocky Bernstein
+  Copyright (C) 2004-2006, 2008, 2012-2014, 2017, 2025 Rocky Bernstein
   <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -170,8 +170,8 @@ parse_options (int argc, char *argv[])
       case 'i': if (optarg != NULL) {
 	  if (NULL != source_name)  free(source_name);
 	  source_name = strdup(optarg);
-	  break;
 	}
+	break;
       case 'f': opts.print_iso9660_short = 1; break;
       case 'l': opts.print_iso9660       = 1; break;
       case 'U': opts.print_udf           = 1; break;
