@@ -875,6 +875,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	      cd->tocent[i].start_lba += cdio_mmssff_to_lba (psz_field);
 	      cdio_lba_to_msf(cd->tocent[i].start_lba,
 			      &(cd->tocent[i].start_msf));
+	      cd->tocent[i].sec_count -= cdio_mmssff_to_lba (psz_field);
 	    }
 	  }
 

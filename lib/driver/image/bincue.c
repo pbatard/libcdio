@@ -818,8 +818,11 @@ parse_cuefile (_img_private_t *cd, const char *psz_cue_name)
                     prev_track->sec_count = 0;
                   } else if ( this_track->start_lba >= prev_track->start_lba
                               + CDIO_PREGAP_SECTORS ) {
-                    prev_track->sec_count = this_track->start_lba -
-                      prev_track->start_lba - CDIO_PREGAP_SECTORS ;
+				if ( this_track->pregap ) {
+	                    prev_track->sec_count = this_track->pregap - prev_track->start_lba ;
+				} else {
+	                    prev_track->sec_count = this_track->start_lba - prev_track->start_lba ;
+				}
                   } else {
                     cdio_log (log_level,
                               "%lu fewer than pregap (%d) sectors in track %d",
