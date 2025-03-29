@@ -138,6 +138,7 @@ _get_drive_cap_image (const void *user_data,
     | CDIO_DRIVE_CAP_READ_MODE2_FORM1
     | CDIO_DRIVE_CAP_READ_MODE2_FORM2
     | CDIO_DRIVE_CAP_READ_MCN
+    | CDIO_DRIVE_CAP_READ_ISRC
     ;
 
   *p_write_cap = 0;
