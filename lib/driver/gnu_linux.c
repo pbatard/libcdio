@@ -1714,7 +1714,7 @@ cdio_open_am_linux (const char *psz_orig_source, const char *access_mode)
     .get_hwinfo            = NULL,
     .get_last_session      = get_last_session_linux,
     .get_media_changed     = get_media_changed_linux,
-    .get_mcn               = get_mcn_linux,
+    .get_mcn               = get_mcn_mmc,
     .get_num_tracks        = get_num_tracks_generic,
     .get_track_channels    = get_track_channels_generic,
     .get_track_copy_permit = get_track_copy_permit_generic,
