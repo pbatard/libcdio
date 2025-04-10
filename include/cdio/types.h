@@ -31,6 +31,8 @@ extern "C" {
 # include <stdbool.h>
 #endif /* __cplusplus */
 
+#include <stddef.h>
+
 /* If <sys/types.h> is not available on your platform please
    contact the libcdio mailing list so that we can fix it! */
 #if !defined(ARE_THERE_STILL_ENVS_WITHOUT_SYS_TYPES)
@@ -162,10 +164,6 @@ typedef uint8_t ubyte;
 #else
 # define GNUC_LIKELY(x)   (x)
 # define GNUC_UNLIKELY(x) (x)
-#endif
-
-#ifndef NULL
-# define NULL ((void*) 0)
 #endif
 
   /** Provide a notice for deprecated elements. Before gcc 4.5 'deprecated'
