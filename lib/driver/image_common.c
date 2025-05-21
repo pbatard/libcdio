@@ -90,6 +90,17 @@ _get_arg_image (void *user_data, const char key[])
     return p_env->psz_cue_name;
   } else if (!strcmp(key, "access-mode")) {
     return "image";
+  } else if (!strcmp(key, "joliet-level")) {
+    switch (p_env->gen.u_joliet_level) {
+    case 1:
+      return "1";
+    case 2:
+      return "2";
+    case 3:
+      return "3";
+    default:
+      return "0";
+    }
   } else if (!strcmp (key, "mmc-supported?")) {
     return "false";
   }
@@ -385,6 +396,12 @@ _set_arg_image (void *p_user_data, const char key[], const char value[])
       CDIO_FREE_IF_NOT_NULL(p_env->psz_access_mode);
       if (!value) return DRIVER_OP_ERROR;
       p_env->psz_access_mode = strdup (value);
+    }
+  else if (!strcmp (key, "joliet-level"))
+    {
+      uint8_t u_joliet_level;
+      if (!value || (u_joliet_level = atoi (value)) > 3) return DRIVER_OP_ERROR;
+      p_env->gen.u_joliet_level = u_joliet_level;
     }
   else
     return DRIVER_OP_ERROR;
