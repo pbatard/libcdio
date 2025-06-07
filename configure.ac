@@ -177,6 +177,9 @@ dnl we need to define _FILE_OFFSET_BITS or _LARGE_FILES on the compiler command
 dnl line because otherwise the system headers risk being included before
 dnl problems
 if test "x$ac_cv_sys_largefiles" = "xyes"; then
+    # judging from /usr/share/autoconf/autoconf/specific.m4, we can arrive here
+    # only on AIX... (section to review and fix/remove or keep it really needed, #21)
+
     if test "x$ac_cv_sys_file_offset_bits" = "x64"; then
         LIBCDIO_LARGEFILE_FLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGE_FILES"
     else
@@ -186,6 +189,14 @@ if test "x$ac_cv_sys_largefiles" = "xyes"; then
         LIBCDIO_LARGEFILE_FLAGS="$LIBDDIO_LARGEFILE_FLAGS -D_LARGEFILE_SOURCE=$ac_cv_sys_largefile_source"
     fi
     CPPFLAGS="$CPPFLAGS $LIBCDIO_LARGEFILE_FLAGS"
+fi
+
+dnl defining _LARGEFILE64_SOURCE is required for lseek64 and fseeko64 (#21) on Linux
+if test "x$enable_largefile" != "xno"; then
+   # note that getting here means that _FILE_OFFSET_BITS gets defined automatically,
+   # but not _LARGE_FILES and _LARGEFILE_SOURCE, so if any compiler needs those 2
+   # then either the section or updating this one may be needed
+   CPPFLAGS="$CPPFLAGS -D_LARGEFILE64_SOURCE"
 fi
 
 AC_DEFINE(LIBCDIO_CONFIG_H, 1,
