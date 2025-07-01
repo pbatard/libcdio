@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2002-2006, 2008, 2011-2012, 2014, 2017
+  Copyright (C) 2002-2006, 2008, 2011-2012, 2014, 2017, 2025
     Rocky Bernstein <rocky@gnu.org>
   Copyright (C) 2001 Herbert Valerio Riedel <hvr@gnu.org>
     cue parsing routine adapted from cuetools
@@ -99,6 +99,11 @@ _init_bincue(_img_private_t *p_env)
   if (p_env->gen.init)
     return false;
 
+  if (NULL == p_env->psz_cue_name) return false;
+
+  /* Read in CUE sheet. */
+  if ( !parse_cuefile(p_env, p_env->psz_cue_name) ) return false;
+
   if (!(p_env->gen.data_source = cdio_stdio_new (p_env->gen.source_name))) {
     cdio_warn ("init failed");
     return false;
@@ -115,11 +120,6 @@ _init_bincue(_img_private_t *p_env)
   lead_lsn = get_disc_last_lsn_bincue( (_img_private_t *) p_env);
 
   if (-1 == lead_lsn) return false;
-
-  if (NULL == p_env->psz_cue_name) return false;
-
-  /* Read in CUE sheet. */
-  if ( !parse_cuefile(p_env, p_env->psz_cue_name) ) return false;
 
   /* Fake out leadout track and sector count for last track*/
   cdio_lsn_to_msf (lead_lsn, &p_env->tocent[p_env->gen.i_tracks].start_msf);
@@ -438,7 +438,10 @@ parse_cuefile (_img_private_t *cd, const char *psz_cue_name)
         if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
           char *dirname = cdio_dirname(psz_cue_name);
           char *filename = cdio_abspath(dirname, psz_field);
-          if (cd) cd->tocent[i + 1].filename = strdup(filename);
+          if (cd) {
+	      cd->gen.source_name = strdup(filename);
+	      cd->tocent[i + 1].filename = strdup(filename);
+	  }
           free(filename);
           free(dirname);
         } else {

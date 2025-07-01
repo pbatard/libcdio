@@ -49,6 +49,13 @@ do
   fi
 done
 
+if test -f ${abs_top_srcdir}/test/data/${fname}.bin ; then
+  opts="--quiet --no-device-info --cue-file ${abs_top_srcdir}/test/data/cdda2.cue --no-cddb"
+  test_cdinfo "$opts" cdda2.dump ${abs_top_srcdir}/test/cdda.right
+  RC=$?
+  check_result $RC "cd-info CUE test CD-DA-CUE" "${CD_INFO} $opts"
+fi
+
 fname=isofs-m1
 if test -f  ${abs_top_srcdir}/test/data/${fname}.bin ; then
   testnum='ISO 9660 mode1 CUE'
