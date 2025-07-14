@@ -859,6 +859,11 @@ _iso9660_dir_to_statbuf (iso9660_dir_t *p_iso9660_dir,
 
   /* .. string in statbuf is one longer than in p_iso9660_dir's listing '\1' */
   stat_len = sizeof(iso9660_stat_t) + i_fname + 2;
+#ifdef HAVE_JOLIET
+  if (u_joliet_level) {
+    stat_len += i_fname / 2;
+  }
+#endif
 
   /* Reuse multiextent p_stat if not NULL */
   if (!p_stat) {
