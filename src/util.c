@@ -375,7 +375,7 @@ print_drive_capabilities(cdio_drive_read_cap_t  i_read_cap,
   if (CDIO_DRIVE_CAP_ERROR == i_misc_cap) {
     report( stdout, "Error in getting drive hardware properties\n");
   }  else if (CDIO_DRIVE_CAP_UNKNOWN == i_misc_cap) {
-    report( stdout, "Uknown drive hardware properties\n");
+    report( stdout, "Unknown drive hardware properties\n");
   } else {
     report( stdout, _("Hardware                                  : %s\n"),
 	   i_misc_cap & CDIO_DRIVE_CAP_MISC_FILE
@@ -405,7 +405,7 @@ print_drive_capabilities(cdio_drive_read_cap_t  i_read_cap,
   if (CDIO_DRIVE_CAP_ERROR == i_read_cap) {
       report( stdout, "Error in getting drive reading properties\n" );
   }  else if (CDIO_DRIVE_CAP_UNKNOWN == i_misc_cap) {
-    report( stdout, "Uknown drive reading properties\n" );
+    report( stdout, "Unknown drive reading properties\n" );
   } else {
     report( stdout, "Reading....\n");
     report( stdout, _("  Can read Mode 2 Form 1                  : %s\n"),
@@ -438,7 +438,7 @@ print_drive_capabilities(cdio_drive_read_cap_t  i_read_cap,
   if (CDIO_DRIVE_CAP_ERROR == i_write_cap) {
       report( stdout, "Error in getting drive writing properties\n" );
   }  else if (CDIO_DRIVE_CAP_UNKNOWN == i_misc_cap) {
-    report( stdout, "Uknown drive writing properties\n" );
+    report( stdout, "Unknown drive writing properties\n" );
   } else {
     report( stdout, "\nWriting....\n");
 #ifdef FIXED
