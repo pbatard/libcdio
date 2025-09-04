@@ -412,9 +412,28 @@ unsigned int
 cdio_get_track_sec_count(const CdIo_t *p_cdio, track_t u_track)
 {
   const track_t u_tracks = cdio_get_num_tracks(p_cdio);
+  lba_t start_lba, next_lba;
 
-  if (u_track >=1 && u_track <= u_tracks)
-    return ( cdio_get_track_lba(p_cdio, u_track+1)
-             - cdio_get_track_lba(p_cdio, u_track) );
-  return 0;
+  if (u_track < 1 || u_track > u_tracks)
+    return 0;
+
+  start_lba = cdio_get_track_lba(p_cdio, u_track);
+  if (start_lba == CDIO_INVALID_LBA)
+    return 0;
+
+  /* For the last track, use the leadout track to calculate sector count */
+  if (u_track == u_tracks) {
+    next_lba = cdio_get_track_lba(p_cdio, CDIO_CDROM_LEADOUT_TRACK);
+  } else {
+    next_lba = cdio_get_track_lba(p_cdio, u_track + 1);
+  }
+
+  if (next_lba == CDIO_INVALID_LBA)
+    return 0;
+
+  /* Ensure we don't get a negative result due to invalid data */
+  if (next_lba <= start_lba)
+    return 0;
+
+  return (unsigned int)(next_lba - start_lba);
 }
